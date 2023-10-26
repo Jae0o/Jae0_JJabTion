@@ -59,7 +59,8 @@
   font-size: 1.4rem;
   font-weight: 600;
   white-space: nowrap;
-  overflow: scroll;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .menubar_pageList_list_info:hover {
