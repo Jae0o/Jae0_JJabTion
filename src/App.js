@@ -4,7 +4,7 @@ import {
   request,
   getPage,
   updatePage,
-} from "./API/API.js";
+} from "./API/CallApi.js";
 import Menubar from "./Components/Menubar/Menubar.js";
 import PageViewer from "./Components/PageViewer/PageViewer.js";
 import {
