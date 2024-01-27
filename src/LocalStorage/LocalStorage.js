@@ -27,6 +27,44 @@ export function getStorage(id) {
   }
 }
 
+export const MENU_TOGGLE = {
+  getList: () => {
+    try {
+      return JSON.parse(localStorage.getItem(TOGGLE_LIST_NAME)) ?? [];
+    } catch (e) {
+      console.error("Toggled Local List 로딩 실패");
+    }
+  },
+
+  setList: (id) => {
+    try {
+      const getData = getToggleList();
+      const newData = JSON.stringify([...getData, id]);
+      localStorage.setItem(TOGGLE_LIST_NAME, newData);
+    } catch (e) {
+      console.error("Toggled Local set 실패");
+    }
+  },
+
+  removeList: (id) => {
+    try {
+      const getData = getToggleList();
+      const newData = JSON.stringify(getData.filter((item) => item !== id));
+      localStorage.setItem(TOGGLE_LIST_NAME, newData);
+    } catch (e) {
+      console.error("Toggled Local remove 실패");
+    }
+  },
+
+  checkIsToggled: (id) => {
+    if (typeof id === "number") {
+      id = id.toString();
+    }
+    const toggledList = getToggleList();
+    return toggledList.includes(id);
+  },
+};
+
 /* toggle 가져오기 */
 export function getToggleList() {
   try {
