@@ -39,7 +39,7 @@ export default function App({ target }) {
   };
 
   /* Page 호출후 local과 비교 검사 */
-  const getChechkedPage = async (id) => {
+  const getCheckedPage = async (id) => {
     /* 호출 */
     const apiPage = await getPage(id);
     const localPage = getStorage(id);
@@ -142,7 +142,7 @@ export default function App({ target }) {
 
       // 해당 조건 처리가 맞을까
       if (id) {
-        const page = await getChechkedPage(id);
+        const page = await getCheckedPage(id);
         /* 유효성 검사 */
         if (pagePropValidation(page)) {
           pageViewer.setState(page);
