@@ -29,13 +29,10 @@ export default function App({ target }) {
     }
   };
 
-  /* Page 호출후 local과 비교 검사 */
   const getCheckedPage = async (id) => {
-    /* 호출 */
     const apiPage = await API.getPage(id);
     const localPage = getStorage(id);
 
-    /* 로컬 vs API 비교 */
     if (
       localPage &&
       localPage.updatedAt > apiPage.updatedAt &&
@@ -53,17 +50,14 @@ export default function App({ target }) {
     onEvent: async (params) => {
       const { id } = params;
 
-      /* delete */
       if (params.delete) {
-        /* 삭제후 리스트 상태변경 */
         await API.deletePage(id);
         getPageList("/documents");
 
-        /* is Toggle ? => remove localToggle data */
         if (isCheckedToggled(id)) {
           removeStorage(id);
         }
-        /* 현재 보고 있는 페이지에 대한 삭제 처리 */
+
         const { pathname } = window.location;
         const idInPath = pathname.split("/")[2];
 
@@ -72,7 +66,6 @@ export default function App({ target }) {
         }
       }
 
-      /* insert */
       if (params.insert) {
         const newPage = await API.insertPage({
           title: "제목 없음",
@@ -82,16 +75,14 @@ export default function App({ target }) {
         if (!isCheckedToggled(id)) {
           setToggleList(id);
         }
-        /* 리스트 상태 업데이트 */
+
         await getPageList("/documents");
 
-        /* new Page Route 이동 */
         makeRouterEvent({ url: `/documents/${newPage.id}`, event: "push" });
       }
     },
   });
 
-  // 디바운드를 위한 timer
   let timer = null;
 
   const pageViewer = new PageViewer({
@@ -102,13 +93,13 @@ export default function App({ target }) {
 
     onEditing: (params) => {
       const { id } = params;
-      /* local 저장 */
       setStorage(params);
 
       /* 디바운스 */
       if (timer !== null) {
         clearTimeout(timer);
       }
+
       timer = setTimeout(async () => {
         const res = await API.updatePage(params);
 
@@ -147,7 +138,6 @@ export default function App({ target }) {
     target: appElement,
   });
 
-  /* 가이드 토글 버튼 */
   const helpButton = new HelpButton({
     target: appElement,
     onClick: (newState) => {
