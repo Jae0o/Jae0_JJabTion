@@ -1,8 +1,7 @@
-import { isCheckedToggled } from "../../../LocalStorage/LocalStorage.js";
+import { MENU_TOGGLE } from "../../../LocalStorage/LocalStorage.js";
 import List from "./List.js";
 
 export default function ChildrenList({ target, state, id, depth }) {
-  /* Child Box */
   const childrenListElement = document.createElement("ul");
   childrenListElement.setAttribute(
     "class",
@@ -10,15 +9,13 @@ export default function ChildrenList({ target, state, id, depth }) {
   );
   target.appendChild(childrenListElement);
 
-  /* is toggle ? */
-  if (isCheckedToggled(id)) {
+  if (MENU_TOGGLE.checkIsToggled(id)) {
     childrenListElement.classList.add("toggleChecked");
   }
 
   this.state = state;
 
   this.render = () => {
-    /* 다음 깊이의 자식 생성 = 재귀 */
     this.state.forEach((list) => {
       new List({
         target: childrenListElement,

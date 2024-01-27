@@ -1,7 +1,4 @@
-import {
-  removeToggleList,
-  setToggleList,
-} from "../../../LocalStorage/LocalStorage.js";
+import { MENU_TOGGLE } from "../../../LocalStorage/LocalStorage.js";
 import { makeRouterEvent } from "../../../Router/Router.js";
 import List from "./List.js";
 
@@ -67,14 +64,14 @@ export default function PageList({ target, state, onEvent }) {
         if (!display.className.includes("toggleChecked")) {
           checkBoxElement.setAttribute("checked", "true");
           display.classList.add("toggleChecked");
-          setToggleList(id);
+          MENU_TOGGLE.setList(id);
           return;
         }
 
         if (display.className.includes("toggleChecked")) {
           checkBoxElement.removeAttribute("checked");
           display.classList.remove("toggleChecked");
-          removeToggleList(id);
+          MENU_TOGGLE.removeList(id);
           return;
         }
       }

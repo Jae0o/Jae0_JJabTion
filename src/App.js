@@ -3,10 +3,9 @@ import Menubar from "./Components/Menubar/Menubar.js";
 import PageViewer from "./Components/PageViewer/PageViewer.js";
 import {
   getStorage,
-  isCheckedToggled,
   removeStorage,
   setStorage,
-  setToggleList,
+  MENU_TOGGLE,
 } from "./LocalStorage/LocalStorage.js";
 import {
   listPropValidation,
@@ -54,7 +53,7 @@ export default function App({ target }) {
         await API.deletePage(id);
         getPageList("/documents");
 
-        if (isCheckedToggled(id)) {
+        if (MENU_TOGGLE.checkIsToggled(id)) {
           removeStorage(id);
         }
 
@@ -72,8 +71,8 @@ export default function App({ target }) {
           parent: id,
         });
 
-        if (!isCheckedToggled(id)) {
-          setToggleList(id);
+        if (!MENU_TOGGLE.checkIsToggled(id)) {
+          MENU_TOGGLE.setList(id);
         }
 
         await getPageList("/documents");
