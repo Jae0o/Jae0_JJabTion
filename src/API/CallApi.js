@@ -18,43 +18,37 @@ export async function request(url, options) {
   }
 }
 
-/* insert */
+export const API = {
+  insertPage: async (params) => {
+    const createdPost = await request("/documents", {
+      method: "POST",
+      body: JSON.stringify(params),
+    });
 
-export async function insertPage(params) {
-  const createdPost = await request("/documents", {
-    method: "POST",
-    body: JSON.stringify(params),
-  });
+    return createdPost;
+  },
 
-  return createdPost;
-}
+  deletePage: async (id) => {
+    await request(`/documents/${id}`, {
+      method: "DELETE",
+    });
+  },
 
-/* delete */
+  getPage: async (id) => {
+    const page = await request(`/documents/${id}`, {
+      method: "GET",
+    });
 
-export async function deletePage(id) {
-  await request(`/documents/${id}`, {
-    method: "DELETE",
-  });
-}
+    return page;
+  },
 
-/* getPage */
-
-export async function getPage(id) {
-  const page = await request(`/documents/${id}`, {
-    method: "GET",
-  });
-
-  return page;
-}
-
-/* UpdatePage */
-
-export async function updatePage({ id, title, content }) {
-  return await request(`/documents/${id}`, {
-    method: "PUT",
-    body: JSON.stringify({
-      title,
-      content,
-    }),
-  });
-}
+  updatePage: async ({ id, title, content }) => {
+    return await request(`/documents/${id}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        title,
+        content,
+      }),
+    });
+  },
+};

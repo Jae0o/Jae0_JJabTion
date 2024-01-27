@@ -1,10 +1,4 @@
-import {
-  deletePage,
-  insertPage,
-  request,
-  getPage,
-  updatePage,
-} from "./API/CallApi.js";
+import { API, request } from "./API/CallApi.js";
 import Menubar from "./Components/Menubar/Menubar.js";
 import PageViewer from "./Components/PageViewer/PageViewer.js";
 import {
@@ -23,17 +17,14 @@ import HelpButton from "./Components/HelpCard/HelpButton.js";
 import HelpCard from "./Components/HelpCard/HelpCard.js";
 
 export default function App({ target }) {
-  /* App 생성 정보 */
   const appElement = document.createElement("section");
   target.appendChild(appElement);
   appElement.setAttribute("class", "app");
 
-  /* PageList 호출 */
   const getPageList = async (url) => {
     const lists = await request(url);
-    /* 유효성 검사 */
+
     if (listPropValidation(lists)) {
-      /* 리스트 상태 변경 */
       menubar.setState(lists);
     }
   };
@@ -41,7 +32,7 @@ export default function App({ target }) {
   /* Page 호출후 local과 비교 검사 */
   const getCheckedPage = async (id) => {
     /* 호출 */
-    const apiPage = await getPage(id);
+    const apiPage = await API.getPage(id);
     const localPage = getStorage(id);
 
     /* 로컬 vs API 비교 */
@@ -65,7 +56,7 @@ export default function App({ target }) {
       /* delete */
       if (params.delete) {
         /* 삭제후 리스트 상태변경 */
-        await deletePage(id);
+        await API.deletePage(id);
         getPageList("/documents");
 
         /* is Toggle ? => remove localToggle data */
@@ -83,7 +74,7 @@ export default function App({ target }) {
 
       /* insert */
       if (params.insert) {
-        const newPage = await insertPage({
+        const newPage = await API.insertPage({
           title: "제목 없음",
           parent: id,
         });
@@ -119,7 +110,7 @@ export default function App({ target }) {
         clearTimeout(timer);
       }
       timer = setTimeout(async () => {
-        const res = await updatePage(params);
+        const res = await API.updatePage(params);
 
         if (res.id === id) {
           removeStorage(id);
