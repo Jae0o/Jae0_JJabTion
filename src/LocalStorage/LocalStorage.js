@@ -1,31 +1,31 @@
 const STORAGE_NAME = "SAVE_DATA_";
 const TOGGLE_LIST_NAME = "TOGGLED_ITEM";
 
-export function setStorage(pageData) {
-  try {
-    const updatedAt = new Date();
-    const newData = JSON.stringify({ ...pageData, updatedAt });
-    localStorage.setItem(`${STORAGE_NAME}${pageData.id}`, newData);
-  } catch (e) {
-    console.error("Local data save 실패");
-  }
-}
-
-export function removeStorage(id) {
-  try {
-    localStorage.removeItem(`${STORAGE_NAME}${id}`);
-  } catch (e) {
-    console.error("Local data save 실패");
-  }
-}
-
-export function getStorage(id) {
-  try {
-    return JSON.parse(localStorage.getItem(`${STORAGE_NAME}${id}`));
-  } catch (e) {
-    console.error("Local data load 실패");
-  }
-}
+export const LOCAL_STORAGE = {
+  setStorage: (pageData) => {
+    try {
+      const updatedAt = new Date();
+      const newData = JSON.stringify({ ...pageData, updatedAt });
+      localStorage.setItem(`${STORAGE_NAME}${pageData.id}`, newData);
+    } catch (e) {
+      console.error("Local data save 실패");
+    }
+  },
+  removeStorage: (id) => {
+    try {
+      localStorage.removeItem(`${STORAGE_NAME}${id}`);
+    } catch (e) {
+      console.error("Local data save 실패");
+    }
+  },
+  getStorage: (id) => {
+    try {
+      return JSON.parse(localStorage.getItem(`${STORAGE_NAME}${id}`));
+    } catch (e) {
+      console.error("Local data load 실패");
+    }
+  },
+};
 
 export const MENU_TOGGLE = {
   getList: () => {

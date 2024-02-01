@@ -1,12 +1,7 @@
 import { API, request } from "./API/CallApi.js";
 import Menubar from "./Components/Menubar/Menubar.js";
 import PageViewer from "./Components/PageViewer/PageViewer.js";
-import {
-  getStorage,
-  removeStorage,
-  setStorage,
-  MENU_TOGGLE,
-} from "./LocalStorage/LocalStorage.js";
+import { MENU_TOGGLE, LOCAL_STORAGE } from "./LocalStorage/LocalStorage.js";
 import {
   listPropValidation,
   pagePropValidation,
@@ -30,7 +25,7 @@ export default function App({ target }) {
 
   const getCheckedPage = async (id) => {
     const apiPage = await API.getPage(id);
-    const localPage = getStorage(id);
+    const localPage = LOCAL_STORAGE.getStorage(id);
 
     if (
       localPage &&
@@ -54,7 +49,7 @@ export default function App({ target }) {
         getPageList("/documents");
 
         if (MENU_TOGGLE.checkIsToggled(id)) {
-          removeStorage(id);
+          LOCAL_STORAGE.removeStorage(id);
         }
 
         const { pathname } = window.location;
@@ -92,7 +87,7 @@ export default function App({ target }) {
 
     onEditing: (params) => {
       const { id } = params;
-      setStorage(params);
+      LOCAL_STORAGE.setStorage(params);
 
       /* 디바운스 */
       if (timer !== null) {
@@ -103,7 +98,7 @@ export default function App({ target }) {
         const res = await API.updatePage(params);
 
         if (res.id === id) {
-          removeStorage(id);
+          LOCAL_STORAGE.removeStorage(id);
         }
         await getPageList("/documents");
       }, 600);
